@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+
+:root {
+  /* Luxury Gold and Dark Charcoal Theme Variables */
+  --bg-primary: #0a0a0c;
+  --bg-secondary: #121216;
+  --bg-card: #18181f;
+  --bg-input: #202028;
+  
+  --gold-primary: #d4af37;       /* Elegant Metallic Gold */
+  --gold-hover: #f3e5ab;         /* Light Champagne Gold */
+  --gold-dark: #aa8c2c;          /* Deep Bronze Gold */
+  --gold-glow: rgba(212, 175, 55, 0.25);
+  
+  --text-primary: #f3f4f6;       /* Soft White */
+  --text-secondary: #9ca3af;     /* Cool Gray */
+  --text-muted: #6b7280;         /* Muted Gray */
+  --border-color: #2a2a35;       /* Subtle Border */
+  
+  --font-serif: 'Cinzel', serif;
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-primary);
+}
+
+/* Luxury Utilities */
+.text-gold {
+  color: var(--gold-primary);
+  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa8c2c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #aa8c2c 100%);
+}
+
+.bg-gold-gradient-hover {
+  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+}
+
+.gold-border {
+  border: 1px solid var(--gold-primary);
+}
+
+.gold-glow {
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+
+.gold-glow-hover:hover {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  border-color: var(--gold-hover);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.glass-card {
+  background: rgba(24, 24, 31, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.glass-card-gold {
+  background: rgba(24, 24, 31, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Custom Checkbox */
+input[type="checkbox"] {
+  accent-color: var(--gold-primary);
+}
+
+/* PayTR Iframe Simulation style */
+.paytr-iframe-sim {
+  border: 2px dashed var(--gold-primary);
+  background: rgba(18, 18, 22, 0.9);
+  position: relative;
+  overflow: hidden;
+}

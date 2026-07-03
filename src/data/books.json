@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1",
+    "title": "Siyer Umresi ve Kutsal Topraklar Rehberi",
+    "author": "Rıdvan Yılmaz",
+    "price": 280.00,
+    "category": "Manevi Seyahat & Siyer",
+    "coverImage": "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=600&auto=format&fit=crop",
+    "description": "Rıdvan Yılmaz Turizm güvencesiyle düzenlenen Siyer Umresi programlarına özel hazırlanan bu rehber, Mekke ve Medine'deki kutsal mekanların tarihi ve siyer odaklı anlatımlarını içermektedir. Bedir, Uhud, Hendek savaşlarının geçtiği noktalar ve Hira, Sevr mağaralarının detaylı analizleri bu kitapta yer almaktadır.",
+    "stock": 150,
+    "rating": 5.0,
+    "pages": 240,
+    "publisher": "Manevi Coğrafya Yayınları"
+  },
+  {
+    "id": "2",
+    "title": "Hac ve Umre Duaları (Cep Boy)",
+    "author": "Komisyon",
+    "price": 85.00,
+    "category": "Manevi Seyahat & Siyer",
+    "coverImage": "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop",
+    "description": "Tavaf, Sa'y ve Arafat vakfesinde okunacak en sahih dualar, Türkçe mealleri ve Arapça okunuşlarıyla birlikte seyahat esnasında kolay taşınabilmesi amacıyla cep boy olarak tasarlanmıştır.",
+    "stock": 500,
+    "rating": 4.9,
+    "pages": 128,
+    "publisher": "Manevi Coğrafya Yayınları"
+  },
+  {
+    "id": "3",
+    "title": "Peygamber Efendimiz'in Hayatı (Siyer-i Nebi)",
+    "author": "Salih Suruç",
+    "price": 350.00,
+    "category": "Manevi Seyahat & Siyer",
+    "coverImage": "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=600&auto=format&fit=crop",
+    "description": "Asr-ı Saadet iklimini evlerinize taşıyan, Peygamber Efendimiz'in (s.a.v.) doğumundan vefatına kadar olan tüm hayatını sürükleyici ve edebi bir dille anlatan ödüllü siyer eseri.",
+    "stock": 75,
+    "rating": 4.8,
+    "pages": 720,
+    "publisher": "Nesil Yayınları"
+  },
+  {
+    "id": "4",
+    "title": "Mukaddes Emanetlerin İzinde Kudüs ve Şam",
+    "author": "Talha Uğurluel",
+    "price": 410.00,
+    "category": "Tarih & Kültür",
+    "coverImage": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?q=80&w=600&auto=format&fit=crop",
+    "description": "Kudüs'ün Müslümanlar için ehemmiyetini, Mescid-i Aksa'nın tarihi ve mimari özelliklerini fotoğraflarla anlatan, seyahatseverler için başucu niteliğinde bir eser.",
+    "stock": 45,
+    "rating": 4.7,
+    "pages": 380,
+    "publisher": "Timaş Yayınları"
+  },
+  {
+    "id": "5",
+    "title": "Manevi Gelişim ve İç Huzur",
+    "author": "İmam Gazali",
+    "price": 195.00,
+    "category": "Edebiyat & Düşünce",
+    "coverImage": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
+    "description": "Kalplerin Keşfi ve nefis terbiyesi üzerine yazılmış, yüzyıllardır İslam dünyasında ruhsal arınma arayışında olanlara rehberlik eden klasik eser.",
+    "stock": 120,
+    "rating": 4.9,
+    "pages": 440,
+    "publisher": "Bedir Yayınları"
+  },
+  {
+    "id": "6",
+    "title": "Osmanlı Tarihi ve Kültür Atlası",
+    "author": "İlber Ortaylı",
+    "price": 450.00,
+    "category": "Tarih & Kültür",
+    "coverImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop",
+    "description": "Osmanlı İmparatorluğu'nun kuruluşundan yıkılışına kadarki tarihi süreçleri, devlet yapısını, mimari mirasını ve kültürünü ünlü tarihçinin kaleminden inceleyen prestij kitap.",
+    "stock": 30,
+    "rating": 4.6,
+    "pages": 512,
+    "publisher": "Kronik Kitap"
+  }
+]
