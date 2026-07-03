@@ -1,18 +1,10 @@
-import fs from "fs/promises";
-import path from "path";
 import CatalogPage from "../../components/CatalogPage";
+import { getAllBooks } from "@/lib/booksDb";
 
 export const revalidate = 0; // Disable static caching so admin changes are immediately visible
 
 async function getBooks() {
-  try {
-    const dataFilePath = path.join(process.cwd(), "src", "data", "books.json");
-    const data = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Failed to read books for catalog page:", error);
-    return [];
-  }
+  return getAllBooks();
 }
 
 export default async function Page() {

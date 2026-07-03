@@ -1,20 +1,12 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import FeaturedBooks from "../components/FeaturedBooks";
 import HeroVideo from "../components/HeroVideo";
+import { getAllBooks } from "@/lib/booksDb";
 
 export const revalidate = 60; // Revalidate every minute
 
 async function getBooks() {
-  try {
-    const dataFilePath = path.join(process.cwd(), "src", "data", "books.json");
-    const data = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Failed to read books for home page:", error);
-    return [];
-  }
+  return getAllBooks();
 }
 
 export default async function Home() {

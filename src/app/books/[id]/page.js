@@ -1,20 +1,11 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import BookDetailClient from "../../../components/BookDetailClient";
+import { getBookById } from "@/lib/booksDb";
 
 export const revalidate = 0; // Fresh stock data
 
 async function getBook(id) {
-  try {
-    const dataFilePath = path.join(process.cwd(), "src", "data", "books.json");
-    const data = await fs.readFile(dataFilePath, "utf8");
-    const books = JSON.parse(data);
-    return books.find((b) => b.id === id) || null;
-  } catch (error) {
-    console.error("Error reading single book data:", error);
-    return null;
-  }
+  return getBookById(id);
 }
 
 // Generate metadata dynamically for maximum SEO impact!
