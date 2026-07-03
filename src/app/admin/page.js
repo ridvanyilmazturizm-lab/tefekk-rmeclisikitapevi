@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [ordersError, setOrdersError] = useState(null);
   const [activeTab, setActiveTab] = useState("katalog"); // katalog, siparisler
   const [trackingInputs, setTrackingInputs] = useState({}); // { [orderId]: trackingNumber }
+  const [isUploading, setIsUploading] = useState(false);
   
   // Authentication States
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -80,6 +81,35 @@ export default function AdminPage() {
     } catch (err) {
       console.error(err);
       alert("Hata oluştu.");
+    }
+  };
+
+  // Upload book cover image file to serverless storage / local fallback
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+        method: "POST",
+        body: file,
+      });
+
+      if (!res.ok) {
+        throw new Error("Resim yükleme sırasında sunucu hatası oluştu.");
+      }
+
+      const data = await res.json();
+      setFormData((prev) => ({
+        ...prev,
+        coverImage: data.url,
+      }));
+    } catch (err) {
+      console.error(err);
+      alert("Fotoğraf yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -698,16 +728,52 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Cover Image URL */}
-              <div className="space-y-1">
-                <label className="text-gray-500 font-bold uppercase">Kapak Görseli URL</label>
-                <input
-                  type="text"
-                  value={formData.coverImage}
-                  onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full bg-[#202028] border border-[#2a2a35] focus:border-[#d4af37] rounded-lg px-3.5 py-2.5 text-gray-200 focus:outline-none"
-                />
+              {/* Cover Image Upload & URL Fallback */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+                <div className="sm:col-span-8 space-y-1">
+                  <label className="text-gray-500 font-bold uppercase">Kapak Görseli</label>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    {/* File Picker */}
+                    <div className="relative flex-1">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        disabled={isUploading}
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-file-picker"
+                      />
+                      <label
+                        htmlFor="image-file-picker"
+                        className={`w-full bg-[#18181f] border border-[#2a2a35] hover:border-[#d4af37] rounded-lg px-3.5 py-2.5 text-gray-300 hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold ${isUploading ? "opacity-50 cursor-not-allowed" : ""}`}
+                      >
+                        <svg className="w-4 h-4 text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        {isUploading ? "GÖRSEL YÜKLENİYOR..." : "BİLGİSAYARDAN RESİM SEÇ"}
+                      </label>
+                    </div>
+                  </div>
+                  {/* Read-only URL fallback so they can see the address */}
+                  <input
+                    type="text"
+                    readOnly
+                    value={formData.coverImage}
+                    placeholder="Görsel adresi yüklemeden sonra burada görünecektir"
+                    className="w-full bg-[#202028]/50 border border-[#2a2a35]/60 text-gray-500 rounded-lg px-3.5 py-2 text-[10px] focus:outline-none mt-1"
+                  />
+                </div>
+
+                {/* Cover Image Preview */}
+                <div className="sm:col-span-4 flex justify-center">
+                  <div className="w-20 h-24 bg-[#141419] border border-[#2a2a35] rounded overflow-hidden flex items-center justify-center relative">
+                    {formData.coverImage ? (
+                      <img src={formData.coverImage} alt="Kapak Önizleme" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] text-gray-600 font-bold uppercase text-center p-1">Görsel Yok</span>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Stock, Pages, Publisher */}
