@@ -7,6 +7,30 @@ export default function AdminPage() {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Authentication States
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [authError, setAuthError] = useState("");
+
+  // Check authentication session on mount
+  useEffect(() => {
+    const isAuth = sessionStorage.getItem("admin_authenticated");
+    if (isAuth === "true") {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = (e) => {
+    if (e) e.preventDefault();
+    if (passwordInput === "tefekkur123") {
+      setIsAuthenticated(true);
+      sessionStorage.setItem("admin_authenticated", "true");
+      setAuthError("");
+    } else {
+      setAuthError("Hatalı yönetici şifresi girdiniz.");
+    }
+  };
 
   // Form Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,6 +162,54 @@ export default function AdminPage() {
   const lowStockCount = books.filter((b) => b.stock < 10).length;
   const categoriesList = [...new Set(books.map((b) => b.category))];
   const totalStockQuantity = books.reduce((sum, b) => sum + b.stock, 0);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="bg-[#0a0a0c] min-h-screen flex items-center justify-center py-12 px-6">
+        <div className="max-w-md w-full glass-card p-8 border border-[#d4af37]/35 rounded-2xl shadow-2xl space-y-6 text-center">
+          <div className="space-y-2">
+            <span className="text-[#d4af37] text-xs font-bold tracking-[0.25em] uppercase block">
+              GÜVENLİ YÖNETİCİ GİRİŞİ
+            </span>
+            <h2 className="text-2xl font-bold font-serif text-white tracking-wide">
+              TEFEKKÜR MECLİSİ
+            </h2>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4 text-xs text-left">
+            <div className="space-y-1.5">
+              <label className="text-gray-500 font-bold uppercase tracking-wider block">YÖNETİCİ ŞİFRESİ</label>
+              <input
+                type="password"
+                required
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-[#18181f] border border-[#2a2a35] focus:border-[#d4af37] rounded-lg px-4 py-3 text-sm text-gray-200 focus:outline-none transition-all"
+              />
+            </div>
+
+            {authError && (
+              <p className="text-red-400 font-semibold text-[11px] bg-red-950/20 border border-red-900/40 p-2 rounded">
+                ⚠️ {authError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full py-3 bg-gold-gradient text-[#0a0a0c] text-xs font-bold tracking-widest rounded-lg hover:bg-none hover:bg-[#f3e5ab] transition-all shadow-lg shadow-[#d4af37]/15 cursor-pointer"
+            >
+              GİRİŞ YAP
+            </button>
+          </form>
+
+          <Link href="/" className="inline-block text-[11px] text-gray-500 hover:text-[#d4af37] transition-colors mt-2">
+            ← Ana Sayfaya Geri Dön
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#0a0a0c] min-h-screen py-12 px-6 md:px-12">
