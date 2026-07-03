@@ -7,6 +7,13 @@ export default function AdminPage() {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Order Management States
+  const [orders, setOrders] = useState([]);
+  const [isOrdersLoading, setIsOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState(null);
+  const [activeTab, setActiveTab] = useState("katalog"); // katalog, siparisler
+  const [trackingInputs, setTrackingInputs] = useState({}); // { [orderId]: trackingNumber }
   
   // Authentication States
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +36,50 @@ export default function AdminPage() {
       setAuthError("");
     } else {
       setAuthError("Hatalı yönetici şifresi girdiniz.");
+    }
+  };
+
+  // Fetch all orders
+  const fetchOrders = async () => {
+    setIsOrdersLoading(true);
+    try {
+      const res = await fetch("/api/orders");
+      if (!res.ok) throw new Error("Siparişler yüklenirken bir hata oluştu.");
+      const data = await res.json();
+      setOrders(data);
+
+      // Pre-populate tracking text fields
+      const inputs = {};
+      data.forEach((o) => {
+        inputs[o.id] = o.trackingNumber || "";
+      });
+      setTrackingInputs(inputs);
+      setOrdersError(null);
+    } catch (err) {
+      setOrdersError(err.message);
+    } finally {
+      setIsOrdersLoading(false);
+    }
+  };
+
+  // Update order status/tracking in DB
+  const handleUpdateOrder = async (orderId, updatedFields) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedFields),
+      });
+
+      if (res.ok) {
+        alert("Sipariş bilgileri başarıyla güncellendi.");
+        fetchOrders();
+      } else {
+        alert("Sipariş güncellenirken bir hata oluştu.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Hata oluştu.");
     }
   };
 
@@ -67,6 +118,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchBooks();
+    fetchOrders();
   }, []);
 
   // Open modal for Adding
@@ -220,16 +272,37 @@ export default function AdminPage() {
             <h1 className="text-3xl font-bold font-serif text-white tracking-wider">
               YÖNETİCİ <span className="text-gold">PANELİ</span>
             </h1>
-            <p className="text-xs text-gray-400">Kitap kütüphanenizi ve ürün katalog bilgilerini yönetin.</p>
+            <p className="text-xs text-gray-400">Kitap kütüphanenizi, siparişlerinizi ve ürün katalog bilgilerini yönetin.</p>
           </div>
+          {activeTab === "katalog" && (
+            <button
+              onClick={handleAddClick}
+              className="px-5 py-2.5 bg-gold-gradient text-[#0a0a0c] text-xs font-bold tracking-wider rounded-lg hover:bg-none hover:bg-[#f3e5ab] transition-all flex items-center gap-1.5 shadow-lg shadow-[#d4af37]/10"
+              id="add-new-book-btn"
+            >
+              <span>+</span> YENİ KİTAP EKLE
+            </button>
+          )}
+        </div>
+
+        {/* Tab Selection */}
+        <div className="flex space-x-6 border-b border-[#2a2a35]/65 pb-0.5 text-xs font-bold tracking-widest">
           <button
-            onClick={handleAddClick}
-            className="px-5 py-2.5 bg-gold-gradient text-[#0a0a0c] text-xs font-bold tracking-wider rounded-lg hover:bg-none hover:bg-[#f3e5ab] transition-all flex items-center gap-1.5 shadow-lg shadow-[#d4af37]/10"
-            id="add-new-book-btn"
+            onClick={() => setActiveTab("katalog")}
+            className={`pb-3 transition-all border-b-2 uppercase ${activeTab === "katalog" ? "border-[#d4af37] text-white" : "border-transparent text-gray-500 hover:text-gray-300"}`}
           >
-            <span>+</span> YENİ KİTAP EKLE
+            📚 Katalog Yönetimi
+          </button>
+          <button
+            onClick={() => setActiveTab("siparisler")}
+            className={`pb-3 transition-all border-b-2 uppercase ${activeTab === "siparisler" ? "border-[#d4af37] text-white" : "border-transparent text-gray-500 hover:text-gray-300"}`}
+          >
+            📦 Sipariş Yönetimi
           </button>
         </div>
+
+        {activeTab === "katalog" ? (
+          <>
 
         {/* Dashboard Statistics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -400,6 +473,161 @@ export default function AdminPage() {
             </div>
           )}
         </div>
+          </>
+        ) : (
+          <div className="space-y-6">
+            <div className="glass-card border border-[#2a2a35] rounded-xl overflow-hidden shadow-xl">
+              <div className="px-6 py-4 border-b border-[#2a2a35] bg-[#121216]">
+                <h3 className="text-sm font-bold font-serif tracking-wider text-gray-200">
+                  GELEN SİPARİŞ LİSTESİ
+                </h3>
+              </div>
+
+              {isOrdersLoading ? (
+                <div className="p-16 text-center text-xs text-gray-500 animate-pulse">
+                  Sipariş verileri sunucudan yükleniyor...
+                </div>
+              ) : ordersError ? (
+                <div className="p-16 text-center text-xs text-red-400">
+                  Hata: {ordersError}
+                </div>
+              ) : orders.length === 0 ? (
+                <div className="p-16 text-center text-xs text-gray-500">
+                  Henüz gelen bir sipariş bulunmuyor.
+                </div>
+              ) : (
+                <div className="p-6 space-y-6">
+                  {orders.map((order) => (
+                    <div key={order.id} className="border border-[#2a2a35] rounded-xl overflow-hidden bg-[#0c0c0f] text-left">
+                      {/* Order Summary Header */}
+                      <div className="p-4 sm:p-5 bg-[#141419] border-b border-[#2a2a35] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <div className="space-y-1.5 text-left">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-bold text-sm text-[#d4af37] font-serif">{order.id}</span>
+                            <span className="text-[10px] text-gray-400 bg-[#202028] px-2 py-0.5 rounded">
+                              {order.createdAt ? new Date(order.createdAt).toLocaleString("tr-TR") : "-"}
+                            </span>
+                          </div>
+                          <div className="text-xs text-gray-300 font-semibold">
+                            Alıcı: {order.customerName} | Tel: {order.customerPhone}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3">
+                          {/* Order Status Badge */}
+                          <select
+                            value={order.orderStatus}
+                            onChange={(e) => handleUpdateOrder(order.id, { orderStatus: e.target.value })}
+                            className="bg-[#202028] border border-[#2a2a35] focus:border-[#d4af37] rounded px-2.5 py-1.5 text-[11px] font-bold text-gray-200 focus:outline-none"
+                          >
+                            <option value="Hazırlanıyor">Hazırlanıyor</option>
+                            <option value="Kargoya Verildi">Kargoya Verildi</option>
+                            <option value="Tamamlandı">Tamamlandı</option>
+                            <option value="İptal Edildi">İptal Edildi</option>
+                          </select>
+
+                          {/* Payment Status Badge */}
+                          <select
+                            value={order.paymentStatus}
+                            onChange={(e) => handleUpdateOrder(order.id, { paymentStatus: e.target.value })}
+                            className="bg-[#202028] border border-[#2a2a35] focus:border-[#d4af37] rounded px-2.5 py-1.5 text-[11px] font-bold text-gray-200 focus:outline-none"
+                          >
+                            <option value="Havale Bekleniyor">Havale Bekleniyor</option>
+                            <option value="Ödeme Onaylandı">Ödeme Onaylandı</option>
+                            <option value="Kapıda Ödeme">Kapıda Ödeme</option>
+                          </select>
+
+                          <div className="text-right">
+                            <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Toplam</span>
+                            <span className="text-sm font-bold text-[#d4af37]">{order.totalPrice.toFixed(2)} TL</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Order Details Body */}
+                      <div className="p-4 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs text-left">
+                        {/* Shipping Address */}
+                        <div className="lg:col-span-4 space-y-3">
+                          <h4 className="font-bold text-gray-300 uppercase tracking-wider border-b border-[#2a2a35]/65 pb-1">
+                            Teslimat & Kargo
+                          </h4>
+                          <div className="space-y-1.5 text-gray-400">
+                            <div>
+                              <span className="font-semibold text-gray-300 block">Adres:</span>
+                              {order.addressStreet}
+                            </div>
+                            <div>
+                              <span className="font-semibold text-gray-300 block">Şehir / Posta Kodu:</span>
+                              {order.addressCity} {order.addressZip && `/ ${order.addressZip}`}
+                            </div>
+                            <div>
+                              <span className="font-semibold text-gray-300">Kargo Firması:</span>{" "}
+                              <span className="text-gray-200 uppercase font-bold">{order.shippingMethod}</span>
+                            </div>
+                            <div>
+                              <span className="font-semibold text-gray-300">Ödeme Şekli:</span>{" "}
+                              <span className="text-gray-200 uppercase font-bold">
+                                {order.paymentMethod === "cod" ? "Kapıda Ödeme" : "Banka Havalesi (EFT)"}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Items Purchased */}
+                        <div className="lg:col-span-5 space-y-3">
+                          <h4 className="font-bold text-gray-300 uppercase tracking-wider border-b border-[#2a2a35]/65 pb-1">
+                            Satın Alınan Eserler ({order.items?.length || 0})
+                          </h4>
+                          <div className="space-y-2.5 max-h-40 overflow-y-auto pr-1">
+                            {order.items?.map((item) => (
+                              <div key={item.id} className="flex justify-between items-center bg-[#141419] p-2 rounded border border-[#2a2a35]/40">
+                                <div className="space-y-0.5 max-w-[75%] text-left">
+                                  <span className="font-bold text-gray-200 block truncate">{item.title}</span>
+                                  <span className="text-[10px] text-gray-500 block truncate">{item.author}</span>
+                                </div>
+                                <div className="text-right text-gray-400">
+                                  <span className="font-semibold text-[#d4af37] block">{item.price} TL</span>
+                                  <span className="text-[10px]">Adet: {item.quantity}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Tracking Input */}
+                        <div className="lg:col-span-3 space-y-3">
+                          <h4 className="font-bold text-gray-300 uppercase tracking-wider border-b border-[#2a2a35]/65 pb-1">
+                            Kargo Takip No
+                          </h4>
+                          <div className="space-y-2">
+                            <input
+                              type="text"
+                              value={trackingInputs[order.id] || ""}
+                              onChange={(e) =>
+                                setTrackingInputs({
+                                  ...trackingInputs,
+                                  [order.id]: e.target.value,
+                                })
+                              }
+                              placeholder="Kargo takip kodu yazın"
+                              className="w-full bg-[#18181f] border border-[#2a2a35] focus:border-[#d4af37] rounded px-3 py-2 text-gray-200 focus:outline-none"
+                            />
+                            <button
+                              onClick={() => handleUpdateOrder(order.id, { trackingNumber: trackingInputs[order.id] })}
+                              className="w-full py-2 bg-[#18181f] border border-[#d4af37]/35 text-[#d4af37] hover:bg-[#d4af37] hover:text-[#0a0a0c] text-[10px] font-bold tracking-widest rounded transition-all cursor-pointer"
+                            >
+                              TAKİP NO KAYDET
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Add / Edit Form Modal */}

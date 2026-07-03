@@ -16,6 +16,7 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("havale"); // havale, cod
   const [legalAgreed, setLegalAgreed] = useState(false);
   const [kvkkAgreed, setKvkkAgreed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Modal States for Legal Agreements
   const [activeModal, setActiveModal] = useState(null); // 'kvkk', 'satis', 'bilgi'
@@ -31,8 +32,10 @@ export default function CheckoutPage() {
   };
 
   // Process standard order (COD / Havale)
-  const handleCompleteOrder = (e) => {
+  const handleCompleteOrder = async (e) => {
     if (e) e.preventDefault();
+
+    if (isSubmitting) return;
 
     if (!legalAgreed || !kvkkAgreed) {
       alert("Lütfen yasal sözleşmeleri ve KVKK metnini onaylayın.");
@@ -43,10 +46,43 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Redirect to simulated success page
+    setIsSubmitting(true);
+
     const oid = "TM-" + Date.now();
-    clearCart();
-    router.push(`/checkout/success?oid=${oid}&method=${paymentMethod}`);
+
+    try {
+      const orderPayload = {
+        id: oid,
+        customerName: customer.name,
+        customerEmail: customer.email,
+        customerPhone: customer.phone,
+        addressStreet: address.street,
+        addressCity: address.city,
+        addressZip: address.zip || "",
+        shippingMethod: shippingMethod,
+        paymentMethod: paymentMethod,
+        items: cart,
+        totalPrice: getGrandTotal(),
+      };
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Sipariş kaydedilirken bir hata oluştu.");
+      }
+
+      clearCart();
+      router.push(`/checkout/success?oid=${oid}&method=${paymentMethod}`);
+    } catch (err) {
+      console.error(err);
+      alert("Siparişiniz kaydedilirken sistemsel bir hata oluştu. Lütfen tekrar deneyiniz.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isMounted) return null;
@@ -341,10 +377,11 @@ export default function CheckoutPage() {
                 {/* Submit button */}
                 <button
                   type="submit"
-                  className="w-full py-4 bg-gold-gradient text-[#0a0a0c] text-xs font-bold tracking-widest rounded-lg hover:bg-none hover:bg-[#f3e5ab] transition-all shadow-lg shadow-[#d4af37]/15"
+                  disabled={isSubmitting}
+                  className={`w-full py-4 text-xs font-bold tracking-widest rounded-lg transition-all shadow-lg ${isSubmitting ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-gold-gradient text-[#0a0a0c] hover:bg-none hover:bg-[#f3e5ab] shadow-[#d4af37]/15"}`}
                   id="checkout-submit-btn"
                 >
-                  SİPARİŞİ ONAYLA
+                  {isSubmitting ? "SİPARİŞ ONAYLANIYOR..." : "SİPARİŞİ ONAYLA"}
                 </button>
               </form>
             </div>
