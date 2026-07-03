@@ -5,7 +5,11 @@ import path from "path";
 const dataFilePath = path.join(process.cwd(), "src", "data", "books.json");
 
 // Connection pool configuration
-const connectionString = process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL;
+const connectionString = 
+  process.env.POSTGRES_URL || 
+  process.env.POSTGRES_PRISMA_URL || 
+  process.env.DATABASE_URL || 
+  process.env.STORAGE_URL;
 let pool = null;
 
 if (connectionString) {
