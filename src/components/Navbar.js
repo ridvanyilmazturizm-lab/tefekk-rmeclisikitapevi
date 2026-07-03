@@ -59,12 +59,6 @@ export default function Navbar() {
           </svg>
           MANEVİ SEYAHAT & SİYER
         </Link>
-        <Link
-          href="/admin"
-          className="text-[#f3f4f6] hover:text-[#d4af37] transition-colors"
-        >
-          ADMİN PANELİ
-        </Link>
       </div>
 
       {/* Actions */}
@@ -147,13 +141,6 @@ export default function Navbar() {
             className="text-[#d4af37] hover:text-[#f3e5ab] font-medium tracking-wide flex items-center gap-1"
           >
             MANEVİ SEYAHAT & SİYER
-          </Link>
-          <Link
-            href="/admin"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="text-[#f3f4f6] hover:text-[#d4af37] font-medium tracking-wide"
-          >
-            ADMİN PANELİ
           </Link>
         </div>
       )}
