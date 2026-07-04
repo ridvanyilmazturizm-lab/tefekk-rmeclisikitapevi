@@ -261,7 +261,7 @@ export default function CatalogPage({ initialBooks }) {
                   {book.stock > 0 ? (
                     <button
                       onClick={() => addToCart(book, 1)}
-                      className="px-3 py-1.5 bg-[#18181f] text-[#d4af37] text-[10px] font-bold rounded border border-[#d4af37]/40 hover:bg-[#d4af37] hover:text-[#0a0a0c] transition-all tracking-wider"
+                      className="px-3.5 py-1.5 bg-gold-gradient text-[#0a0a0c] text-[10px] font-bold rounded-lg hover:bg-none hover:bg-[#f3e5ab] transition-all tracking-wider shadow-md shadow-[#d4af37]/10 hover:shadow-[#d4af37]/20 cursor-pointer"
                     >
                       SEPETE EKLE
                     </button>
