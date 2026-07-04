@@ -167,11 +167,11 @@ export default function RootLayout({ children }) {
               </div>
             </div>
 
-            <div className="max-w-7xl mx-auto border-t border-[#2a2a35] mt-8 pt-6 text-center text-[10px] text-gray-500 flex flex-col md:flex-row items-center justify-between">
+            <div className="max-w-7xl mx-auto border-t border-[#2a2a35] mt-8 pt-6 text-center text-[10px] text-gray-500 flex flex-col md:flex-row items-center justify-between gap-4">
               <p>&copy; {new Date().getFullYear()} Tefekkür Meclisi Kitap Evi. Tüm hakları saklıdır.</p>
-              <p className="mt-2 md:mt-0 flex items-center space-x-2">
-                <span>Secure Payments by</span>
-                <span className="text-[#d4af37] font-semibold">PayTR</span>
+              <p className="mt-2 md:mt-0 flex items-center gap-1.5">
+                <span>Designed & Crafted with 💛 by</span>
+                <span className="text-[#d4af37] font-semibold hover:text-[#f3e5ab] transition-colors">Antigravity AI</span>
               </p>
             </div>
           </footer>
