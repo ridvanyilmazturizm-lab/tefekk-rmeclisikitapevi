@@ -219,7 +219,7 @@ export default async function Home() {
             </div>
             <h3 className="text-lg font-bold font-serif text-white">Güvenli Ödeme</h3>
             <p className="text-xs text-gray-400 leading-relaxed">
-              PayTR 256-bit SSL şifreli güvenli ödeme altyapısı, Kapıda Ödeme ve Havale/EFT gibi farklı ödeme yöntemleriyle güvence altındasınız.
+              Kapıda Ödeme ve Havale/EFT gibi farklı ödeme yöntemleriyle güvence altındasınız.
             </p>
           </div>
 
