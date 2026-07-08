@@ -121,7 +121,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-7 space-y-6">
             <form onSubmit={handleCompleteOrder} className="space-y-6">
                 {/* Customer Information */}
-                <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-4">
+                <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-4">
                   <h3 className="text-base font-bold font-serif text-[#d4af37] border-b border-[#2a2a35] pb-3">
                     1. İLETİŞİM BİLGİLERİ
                   </h3>
@@ -163,7 +163,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Delivery Information */}
-                <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-4">
+                <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-4">
                   <h3 className="text-base font-bold font-serif text-[#d4af37] border-b border-[#2a2a35] pb-3">
                     2. TESLİMAT ADRESİ
                   </h3>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Shipping Method */}
-                <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-4">
+                <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-4">
                   <h3 className="text-base font-bold font-serif text-[#d4af37] border-b border-[#2a2a35] pb-3">
                     3. KARGO / TESLİMAT SEÇENEĞİ
                   </h3>
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Payment Method */}
-                <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-4">
+                <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-4">
                   <h3 className="text-base font-bold font-serif text-[#d4af37] border-b border-[#2a2a35] pb-3">
                     4. ÖDEME YÖNTEMİ
                   </h3>
@@ -342,7 +342,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Legal compliance checkboxes */}
-                <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-3">
+                <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-3">
                   <label className="flex items-start space-x-3 text-xs text-gray-400 cursor-pointer">
                     <input
                       type="checkbox"
@@ -388,7 +388,7 @@ export default function CheckoutPage() {
 
           {/* Right Column: Order Summary */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="glass-card p-6 border border-[#2a2a35] rounded-xl space-y-4">
+            <div className="glass-card p-4 sm:p-6 border border-[#2a2a35] rounded-xl space-y-4">
               <h3 className="text-base font-bold font-serif text-[#d4af37] border-b border-[#2a2a35] pb-3">
                 SİPARİŞ ÖZETİ
               </h3>

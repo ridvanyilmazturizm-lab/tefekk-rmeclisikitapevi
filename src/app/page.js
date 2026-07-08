@@ -21,12 +21,12 @@ export default async function Home() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Left Column: Infinite Loop Video (Marked area) */}
-          <div className="lg:col-span-5 flex justify-center relative">
+          <div className="lg:col-span-5 flex justify-center relative order-2 lg:order-1">
             <HeroVideo />
           </div>
 
           {/* Right Column: Title, Description and Search */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="lg:col-span-7 space-y-6 text-left order-1 lg:order-2">
             <span className="text-[#d4af37] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase block animate-fade-in">
               İLİM VE İRFAN YOLCULUĞUNDA MANEVİ REHBERİNİZ
             </span>
@@ -42,19 +42,19 @@ export default async function Home() {
             <form
               action="/books"
               method="GET"
-              className="max-w-xl flex items-center bg-[#18181f] border border-[#2a2a35] focus-within:border-[#d4af37]/65 rounded-full overflow-hidden p-1.5 shadow-xl shadow-black/40 transition-all duration-300"
+              className="max-w-xl flex items-center bg-[#18181f] border border-[#2a2a35] focus-within:border-[#d4af37]/65 rounded-full overflow-hidden p-1 sm:p-1.5 shadow-xl shadow-black/40 transition-all duration-300"
             >
               <input
                 type="text"
                 name="search"
                 placeholder="Kitap adı, yazar veya kategori arayın..."
-                className="flex-1 bg-transparent border-none text-sm text-gray-100 placeholder-gray-500 px-5 focus:outline-none focus:ring-0"
+                className="flex-1 bg-transparent border-none text-xs sm:text-sm text-gray-100 placeholder-gray-500 px-3 sm:px-5 focus:outline-none focus:ring-0"
                 required
                 id="search-input"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gold-gradient text-[#0a0a0c] text-xs font-bold tracking-wider rounded-full hover:bg-none hover:bg-[#f3e5ab] transition-all flex items-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gold-gradient text-[#0a0a0c] text-[10px] sm:text-xs font-bold tracking-wider rounded-full hover:bg-none hover:bg-[#f3e5ab] transition-all flex items-center gap-1.5 sm:gap-2 shrink-0"
                 id="search-submit"
               >
                 <svg
