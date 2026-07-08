@@ -132,7 +132,7 @@ export default function BookDetailClient({ book }) {
         <div className="flex border-b border-[#2a2a35] bg-[#121216]">
           <button
             onClick={() => setActiveTab("description")}
-            className={`flex-1 py-3 text-xs md:text-sm font-semibold tracking-wider transition-all border-b-2 ${
+            className={`flex-1 py-3 text-[10px] xs:text-xs md:text-sm px-1 font-semibold tracking-wider transition-all border-b-2 cursor-pointer ${
               activeTab === "description"
                 ? "border-[#d4af37] text-[#d4af37]"
                 : "border-transparent text-gray-400 hover:text-white"
@@ -142,7 +142,7 @@ export default function BookDetailClient({ book }) {
           </button>
           <button
             onClick={() => setActiveTab("specs")}
-            className={`flex-1 py-3 text-xs md:text-sm font-semibold tracking-wider transition-all border-b-2 ${
+            className={`flex-1 py-3 text-[10px] xs:text-xs md:text-sm px-1 font-semibold tracking-wider transition-all border-b-2 cursor-pointer ${
               activeTab === "specs"
                 ? "border-[#d4af37] text-[#d4af37]"
                 : "border-transparent text-gray-400 hover:text-white"
@@ -152,7 +152,7 @@ export default function BookDetailClient({ book }) {
           </button>
           <button
             onClick={() => setActiveTab("reviews")}
-            className={`flex-1 py-3 text-xs md:text-sm font-semibold tracking-wider transition-all border-b-2 ${
+            className={`flex-1 py-3 text-[10px] xs:text-xs md:text-sm px-1 font-semibold tracking-wider transition-all border-b-2 cursor-pointer ${
               activeTab === "reviews"
                 ? "border-[#d4af37] text-[#d4af37]"
                 : "border-transparent text-gray-400 hover:text-white"

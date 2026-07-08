@@ -5,18 +5,18 @@ import { useCart } from "../context/CartContext";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 
+// Categories list
+const categories = [
+  "Tümü",
+  "Manevi Seyahat & Siyer",
+  "Tarih & Kültür",
+  "Edebiyat & Düşünce",
+];
+
 export default function CatalogPage({ initialBooks }) {
   const { addToCart } = useCart();
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  // Categories list
-  const categories = [
-    "Tümü",
-    "Manevi Seyahat & Siyer",
-    "Tarih & Kültür",
-    "Edebiyat & Düşünce",
-  ];
 
   // States
   const [books, setBooks] = useState(initialBooks);
@@ -85,10 +85,10 @@ export default function CatalogPage({ initialBooks }) {
 
   return (
     <div className="max-w-7xl mx-auto w-full px-6 md:px-12 py-12 flex flex-col lg:flex-row gap-8">
-      {/* Sidebar Filters - Desktop */}
-      <aside className="w-full lg:w-64 flex-shrink-0 space-y-6">
+      {/* Sidebar Filters - Responsive layout */}
+      <aside className="w-full lg:w-64 flex-shrink-0 flex flex-col md:flex-row lg:flex-col gap-4 lg:gap-6">
         {/* Search Panel */}
-        <div className="glass-card p-5 border border-[#2a2a35] rounded-xl">
+        <div className="glass-card p-4 lg:p-5 border border-[#2a2a35] rounded-xl flex-1">
           <h3 className="text-sm font-semibold tracking-wider font-serif text-[#d4af37] mb-3">
             KİTAP ARA
           </h3>
@@ -98,11 +98,11 @@ export default function CatalogPage({ initialBooks }) {
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder="Yazar veya eser adı..."
-              className="w-full bg-[#202028] border border-[#2a2a35] focus:border-[#d4af37]/65 rounded-lg px-4 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none"
+              className="w-full bg-[#202028] border border-[#2a2a35] focus:border-[#d4af37]/65 rounded-lg px-4 py-2.5 lg:py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none"
               id="catalog-search-input"
             />
             <svg
-              className="w-4 h-4 text-gray-500 absolute right-3 top-2.5"
+              className="w-4 h-4 text-gray-500 absolute right-3 top-3 lg:top-2.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -118,16 +118,16 @@ export default function CatalogPage({ initialBooks }) {
         </div>
 
         {/* Categories Panel */}
-        <div className="glass-card p-5 border border-[#2a2a35] rounded-xl">
-          <h3 className="text-sm font-semibold tracking-wider font-serif text-[#d4af37] mb-4">
+        <div className="glass-card p-4 lg:p-5 border border-[#2a2a35] rounded-xl flex-1 overflow-hidden">
+          <h3 className="hidden lg:block text-sm font-semibold tracking-wider font-serif text-[#d4af37] mb-4">
             KATEGORİLER
           </h3>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-row lg:flex-col overflow-x-auto pb-1 lg:pb-0 gap-2 lg:space-y-2 scrollbar-none whitespace-nowrap scroll-smooth">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategorySelect(cat)}
-                className={`text-left text-xs px-3 py-2.5 rounded-lg transition-all font-medium tracking-wide flex items-center justify-between ${
+                className={`text-left text-xs px-3.5 py-2.5 rounded-lg transition-all font-medium tracking-wide flex items-center justify-between gap-3 shrink-0 cursor-pointer ${
                   selectedCategory === cat
                     ? "bg-gold-gradient text-[#0a0a0c] font-semibold shadow-md shadow-[#d4af37]/15"
                     : "text-gray-400 hover:bg-[#18181f] hover:text-white"

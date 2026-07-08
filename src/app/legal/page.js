@@ -3,17 +3,17 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
+const tabs = [
+  { id: "kvkk", name: "KVKK Metni" },
+  { id: "mesafeli-satis", name: "Mesafeli Satış Sözleşmesi" },
+  { id: "on-bilgilendirme", name: "Ön Bilgilendirme Formu" },
+  { id: "gizlilik", name: "Gizlilik & Güvenlik" },
+];
+
 function LegalPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("kvkk");
-
-  const tabs = [
-    { id: "kvkk", name: "KVKK Metni" },
-    { id: "mesafeli-satis", name: "Mesafeli Satış Sözleşmesi" },
-    { id: "on-bilgilendirme", name: "Ön Bilgilendirme Formu" },
-    { id: "gizlilik", name: "Gizlilik & Güvenlik" },
-  ];
 
   useEffect(() => {
     const tabParam = searchParams.get("tab");

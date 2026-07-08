@@ -87,7 +87,7 @@ export default function CheckoutPage() {
 
   if (!isMounted) return null;
 
-  if (cart.length === 0 && !isPayTRCompleted) {
+  if (cart.length === 0) {
     return (
       <div className="max-w-xl mx-auto py-24 px-6 text-center space-y-6">
         <div className="w-16 h-16 bg-[#18181f] border border-[#2a2a35] rounded-full flex items-center justify-center mx-auto">
